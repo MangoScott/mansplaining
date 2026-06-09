@@ -67,7 +67,57 @@
   /* ---------- hero ---------- */
   header.hero{
     text-align:center;
-    padding:9rem 22px 7rem;
+    padding:9.5rem 22px 8rem;
+    position:relative;
+    overflow:hidden;
+  }
+  /* ambient intelligence glow */
+  .hero .glow{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+  }
+  .hero .glow::before,
+  .hero .glow::after{
+    content:"";
+    position:absolute;
+    width:55vw;height:55vw;
+    min-width:420px;min-height:420px;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.35;
+  }
+  .hero .glow::before{
+    background:radial-gradient(circle, #ff5fa2, transparent 65%);
+    top:-22%;left:-12%;
+    animation:drift1 16s ease-in-out infinite alternate;
+  }
+  .hero .glow::after{
+    background:radial-gradient(circle, #4d8bff, transparent 65%);
+    bottom:-28%;right:-14%;
+    animation:drift2 19s ease-in-out infinite alternate;
+  }
+  .hero .glow .g3{
+    position:absolute;
+    width:38vw;height:38vw;min-width:320px;min-height:320px;
+    border-radius:50%;
+    background:radial-gradient(circle, #ffb340, transparent 65%);
+    filter:blur(90px);
+    opacity:.28;
+    top:30%;left:55%;
+    animation:drift3 22s ease-in-out infinite alternate;
+  }
+  @keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(9vw,7vh) scale(1.15)}}
+  @keyframes drift2{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-8vw,-6vh) scale(.95)}}
+  @keyframes drift3{from{transform:translate(0,0)}to{transform:translate(-12vw,8vh) scale(1.2)}}
+
+  .hero > *:not(.glow){position:relative;z-index:1}
+
+  /* staged keynote entrance */
+  @keyframes riseIn{
+    from{opacity:0;transform:translateY(26px);filter:blur(14px)}
+    to{opacity:1;transform:none;filter:blur(0)}
   }
   .hero .eyebrow{
     font-size:1.1rem;
@@ -75,28 +125,48 @@
     color:var(--gray);
     margin-bottom:1rem;
     letter-spacing:.01em;
+    animation:riseIn .9s .15s cubic-bezier(.2,.8,.2,1) backwards;
   }
   .hero h1{
-    font-size:clamp(3.4rem,10vw,7rem);
+    font-size:clamp(3.4rem,10vw,7.5rem);
     font-weight:700;
-    letter-spacing:-.025em;
+    letter-spacing:-.028em;
     line-height:1.02;
+    animation:riseIn 1.1s .45s cubic-bezier(.2,.8,.2,1) backwards;
+    background:linear-gradient(100deg,#0a84ff 0%,#bf5af2 22%,#ff375f 45%,#ff9f0a 62%,#bf5af2 80%,#0a84ff 100%);
+    background-size:220% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:transparent;
+    animation:riseIn 1.1s .45s cubic-bezier(.2,.8,.2,1) backwards, shimmer 7s 1.6s linear infinite;
+  }
+  @keyframes shimmer{
+    0%{background-position:0% 50%}
+    100%{background-position:-220% 50%}
   }
   .hero .tagline{
-    font-size:clamp(1.4rem,3.4vw,2.1rem);
+    font-size:clamp(1.4rem,3.4vw,2.2rem);
     font-weight:600;
     letter-spacing:-.015em;
     color:var(--ink);
-    margin-top:1.1rem;
+    margin-top:1.2rem;
   }
+  .hero .tagline .w{display:inline-block;animation:riseIn .8s cubic-bezier(.2,.8,.2,1) backwards}
+  .hero .tagline .w:nth-child(1){animation-delay:1.05s}
+  .hero .tagline .w:nth-child(2){animation-delay:1.45s}
   .hero .sub{
     font-size:1.06rem;
     color:var(--gray);
-    max-width:46ch;
-    margin:1.6rem auto 0;
+    max-width:48ch;
+    margin:1.7rem auto 0;
+    animation:riseIn .9s 1.9s cubic-bezier(.2,.8,.2,1) backwards;
   }
   .hero .sub sup{color:var(--blue);font-size:.65em}
-  .hero .cta{margin-top:2.2rem;display:flex;gap:1.6rem;justify-content:center;align-items:center}
+  .hero .cta{
+    margin-top:2.3rem;display:flex;gap:1.6rem;justify-content:center;align-items:center;
+    animation:riseIn .9s 2.25s cubic-bezier(.2,.8,.2,1) backwards;
+  }
   .btn{
     display:inline-block;
     background:var(--blue);
@@ -110,7 +180,68 @@
   }
   .btn:hover{background:#0077ed;text-decoration:none}
 
-  /* ---------- big statement sections ---------- */
+  /* ---------- interruption banners (iOS notification style) ---------- */
+  .interrupt{
+    position:fixed;
+    top:64px;
+    left:50%;
+    transform:translate(-50%,-160%);
+    width:min(420px,calc(100vw - 28px));
+    background:rgba(250,250,252,.82);
+    backdrop-filter:saturate(180%) blur(24px);
+    -webkit-backdrop-filter:saturate(180%) blur(24px);
+    border:1px solid rgba(0,0,0,.06);
+    border-radius:20px;
+    box-shadow:0 12px 32px rgba(0,0,0,.16),0 2px 8px rgba(0,0,0,.08);
+    padding:.9rem 1rem .95rem;
+    z-index:60;
+    display:flex;
+    gap:.8rem;
+    align-items:flex-start;
+    text-align:left;
+    transition:transform .55s cubic-bezier(.3,1.25,.35,1),opacity .3s;
+    opacity:0;
+    cursor:pointer;
+  }
+  .interrupt.show{transform:translate(-50%,0);opacity:1}
+  .interrupt.hide{transform:translate(-50%,-160%);opacity:0}
+  .interrupt .avatar{
+    flex:none;
+    width:38px;height:38px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:1.05rem;
+  }
+  .interrupt .avatar.e{background:linear-gradient(135deg,#0a84ff,#bf5af2)}
+  .interrupt .avatar.j{background:linear-gradient(135deg,#ff9f0a,#ff375f)}
+  .interrupt .content{flex:1;min-width:0}
+  .interrupt .meta{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem}
+  .interrupt .from{font-size:.86rem;font-weight:600;color:var(--ink)}
+  .interrupt .when{font-size:.72rem;color:var(--gray-light);flex:none}
+  .interrupt .text{font-size:.9rem;color:#3a3a3c;line-height:1.4;margin-top:.15rem}
+  .interrupt .dismiss{
+    flex:none;
+    border:none;
+    background:rgba(0,0,0,.06);
+    color:var(--gray);
+    width:26px;height:26px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:.8rem;
+    line-height:1;
+    font-family:inherit;
+  }
+  .interrupt .dismiss:hover{background:rgba(0,0,0,.12);color:var(--ink)}
+  .silenced{
+    font-size:.85rem;
+    color:var(--gray-light);
+    margin-top:1.4rem;
+    opacity:0;
+    transition:opacity .8s ease;
+  }
+  .silenced.show{opacity:1}
+
+
   section{padding:7rem 0}
   section.alt{background:var(--bg-alt)}
   .statement{text-align:center}
@@ -267,20 +398,32 @@
 </nav>
 
 <header class="hero">
+  <div class="glow" aria-hidden="true"><span class="g3"></span></div>
   <p class="eyebrow">Introducing</p>
   <h1>Mansplaining</h1>
-  <p class="tagline">Unsolicited. Unprecedented.</p>
-  <p class="sub">The world’s most advanced way to explain things to people who already know them.<sup>1</sup> Demonstrated nightly by <b class="name">Elijah</b> and <b class="name">Johannes</b>. Endured heroically by <b class="name">Alexandra</b> and <b class="name">Emily</b>.</p>
+  <p class="tagline"><span class="w">Unsolicited.</span> <span class="w">Unprecedented.</span></p>
+  <p class="sub">The world’s most advanced way to explain things to people who already know them.<sup>1</sup> Demonstrated nightly by <b class="name">Elijah</b> and <b class="name">Johannes</b>, usually between sets. Endured heroically by <b class="name">Alexandra</b> and <b class="name">Emily</b>.</p>
   <div class="cta">
     <a class="btn" href="#detect">Check yourself</a>
     <a href="#overview">Learn more &rsaquo;</a>
   </div>
+  <p class="silenced" id="silenced" aria-live="polite">Interruptions silenced. <b class="name">Alexandra</b>, <b class="name">Emily</b> — we know. We know.</p>
 </header>
+
+<!-- iOS-style interruption banner -->
+<div class="interrupt" id="interrupt" role="status" aria-live="polite" hidden>
+  <div class="avatar e" id="intAvatar">E</div>
+  <div class="content">
+    <div class="meta"><span class="from" id="intFrom">Elijah</span><span class="when">now</span></div>
+    <div class="text" id="intText"></div>
+  </div>
+  <button class="dismiss" id="intDismiss" aria-label="Dismiss interruption">✕</button>
+</div>
 
 <section id="overview" class="alt">
   <div class="wrap statement reveal">
     <h2>It’s not the explaining.<br><span class="dim">It’s the assuming.</span></h2>
-    <p>Mansplaining is what happens when an explanation is delivered with <strong>total confidence</strong> and an <strong>unchecked assumption</strong> about who in the room knows more. The term took off after Rebecca Solnit’s 2008 essay <em>Men Explain Things to Me</em> — in which a man lectured her about an important book she should really read. The book was hers.<sup>2</sup> He hadn’t read it. He kept going. If you’ve ever watched <b class="name">Johannes</b> explain <b class="name">Alexandra</b>’s own job back to her — congratulations, you’ve seen it live.</p>
+    <p>Mansplaining is what happens when an explanation is delivered with <strong>total confidence</strong> and an <strong>unchecked assumption</strong> about who in the room knows more. The term took off after Rebecca Solnit’s 2008 essay <em>Men Explain Things to Me</em> — in which a man lectured her about an important book she should really read. The book was hers.<sup>2</sup> He hadn’t read it. He kept going. If you’ve ever watched <b class="name">Johannes</b> explain <b class="name">Alexandra</b>’s own forehand back to her — congratulations, you’ve seen it live.</p>
   </div>
 </section>
 
@@ -298,15 +441,15 @@
       </div>
       <div class="cell w3 reveal">
         <p class="quote">“It’s pretty simple, really.”</p>
-        <p class="body">A reliable signal that <b class="name">Johannes</b> has a simple understanding of a complicated subject.</p>
+        <p class="body">A reliable signal that <b class="name">Johannes</b> has a simple understanding of a complicated subject. See: the kick serve.</p>
       </div>
       <div class="cell w3 reveal">
         <p class="quote">“What she’s trying to say is—”</p>
         <p class="body">Seamless restatement. <b class="name">Alexandra</b>’s point, re-presented thirty seconds later. Louder, and now <b class="name">Elijah</b>’s.</p>
       </div>
       <div class="cell w3 reveal">
-        <p class="quote">“Have you tried turning it off and on?”</p>
-        <p class="body">Asked of <b class="name">Emily</b>, who wrote the documentation currently being paraphrased back to her.</p>
+        <p class="quote">“Have you tried getting your racquet back earlier?”</p>
+        <p class="body">Offered, unprompted, to <b class="name">Emily</b> — whose racquet was back. Whose racquet is always back.</p>
       </div>
     </div>
   </div>
@@ -315,7 +458,7 @@
 <section id="detect" class="dark">
   <div class="wrap statement reveal">
     <h2>Detection. Built in.</h2>
-    <p>Four questions. Honest answers. Designed for <b class="name">Elijah</b>. Also applicable to <b class="name">Johannes</b>. Runs entirely on-device — specifically, in your head.</p>
+    <p>Four questions. Honest answers. Designed for <b class="name">Elijah</b>. Also applicable to <b class="name">Johannes</b>. Runs entirely on-device — specifically, in your head. Fits inside one changeover.</p>
     <div class="quiz" id="quizBox">
       <div class="q-step active" data-step="1">
         <div class="q-count">1 of 4</div>
@@ -364,7 +507,7 @@
       <div class="q-step" data-step="verdict-bad">
         <div class="verdict-label stop">Abort explanation</div>
         <div class="verdict-title">Update available.</div>
-        <p class="verdict-body">You were about to mansplain. The patch is free, instant, and one syllable: “Oh?” — followed by listening. <b class="name">Alexandra</b> has already left the room.</p>
+        <p class="verdict-body">You were about to mansplain. The patch is free, instant, and one syllable: “Oh?” — followed by listening. <b class="name">Alexandra</b> has already walked back to the baseline.</p>
         <div class="q-btns"><button data-go="1">Run again</button></div>
       </div>
     </div>
@@ -380,7 +523,8 @@
       <div class="row"><span class="k">Listening</span><span class="v">Not supported in this region</span></div>
       <div class="row"><span class="k">Battery</span><span class="v">All-day talk time<sup>3</sup></span></div>
       <div class="row"><span class="k">Storage</span><span class="v">Holds one opinion. Firmly.</span></div>
-      <div class="row"><span class="k">Compatibility</span><span class="v">Interrupts any conversation. Even <b class="name">Emily</b>’s.</span></div>
+      <div class="row"><span class="k">Compatibility</span><span class="v">Interrupts any conversation. Even <b class="name">Emily</b>’s. Even mid-rally.</span></div>
+      <div class="row"><span class="k">Court coverage</span><span class="v">Verbal only</span></div>
       <div class="row"><span class="k">Field testing</span><span class="v">Conducted extensively on <b class="name">Alexandra</b> and <b class="name">Emily</b>. Consent pending.</span></div>
       <div class="row"><span class="k">Default voice</span><span class="v"><b class="name">Johannes</b>, at full volume</span></div>
       <div class="row"><span class="k">Self-awareness</span><span class="v">Coming in a future update. Right, <b class="name">Elijah</b>?</span></div>
@@ -401,7 +545,7 @@
       <div class="resp reveal">
         <h3>The boomerang</h3>
         <p>Ask one question deeper than his explanation. The pause that follows is the lesson.</p>
-        <span class="line">“And how does that handle the edge case?”</span>
+        <span class="line">“Interesting — and how does that hold up against a lefty slice?”</span>
       </div>
       <div class="resp reveal">
         <h3>The name-and-move</h3>
@@ -421,8 +565,8 @@
   <div class="fine">
     <p><sup>1</sup> Studies of workplace conversation consistently find women are interrupted more often than men, by speakers of all genders. Your mileage will not vary.</p>
     <p><sup>2</sup> Rebecca Solnit, “Men Explain Things to Me” (2008). She did not coin the word “mansplaining,” and has mixed feelings about it. He still hasn’t read the book.</p>
-    <p><sup>3</sup> Talk time measured under controlled conditions: one (1) listener, <b class="name">Alexandra</b>, attempting to leave. Actual duration may exceed expectations. Everyone’s.</p>
-    <div class="legal">Explaining is a gift. Assuming is the bug. Ask first. &nbsp;·&nbsp; Dedicated, with love, to <b class="name">Alexandra</b>, <b class="name">Elijah</b>, <b class="name">Emily</b>, and <b class="name">Johannes</b>. You know which two of you this is about. &nbsp;·&nbsp; Designed by everyone who said it first, somewhere quieter.</div>
+    <p><sup>3</sup> Talk time measured under controlled conditions: one (1) ninety-second changeover, with <b class="name">Alexandra</b> attempting to start the next game. Actual duration may exceed expectations. Everyone’s.</p>
+    <div class="legal">Explaining is a gift. Assuming is the bug. Ask first. &nbsp;·&nbsp; Dedicated, with love, to <b class="name">Alexandra</b>, <b class="name">Elijah</b>, <b class="name">Emily</b>, and <b class="name">Johannes</b>. You know which two of you this is about. &nbsp;·&nbsp; See you at the courts. Serves first. Explanations never.</div>
   </div>
 </footer>
 
@@ -438,7 +582,61 @@
     if(next) next.classList.add('active');
   });
 
-  // scroll reveals
+  // ---------- interruption sequence ----------
+  var banner = document.getElementById('interrupt');
+  var avatar = document.getElementById('intAvatar');
+  var fromEl = document.getElementById('intFrom');
+  var textEl = document.getElementById('intText');
+  var dismissBtn = document.getElementById('intDismiss');
+  var silenced = document.getElementById('silenced');
+
+  var sequence = [
+    {who:'Elijah', cls:'e', text:'Actually, let me stop you right there —'},
+    {who:'Johannes', cls:'j', text:'As I was saying — your toss. Let me explain what’s happening with your toss.'},
+    {who:'Elijah', cls:'e', text:'One more thing.'}
+  ];
+  var idx = 0;
+  var dismissing = false;
+
+  function showBanner(){
+    if(idx >= sequence.length) return;
+    var item = sequence[idx];
+    avatar.textContent = item.who.charAt(0);
+    avatar.className = 'avatar ' + item.cls;
+    fromEl.textContent = item.who;
+    textEl.textContent = item.text;
+    banner.hidden = false;
+    banner.classList.remove('hide');
+    // force reflow so the entrance transition runs
+    void banner.offsetWidth;
+    banner.classList.add('show');
+    dismissing = false;
+  }
+
+  function dismissBanner(){
+    if(dismissing || banner.hidden) return;
+    dismissing = true;
+    banner.classList.remove('show');
+    banner.classList.add('hide');
+    idx++;
+    setTimeout(function(){
+      banner.hidden = true;
+      if(idx < sequence.length){
+        // it never takes long for the next one
+        setTimeout(showBanner, 2600);
+      } else {
+        silenced.classList.add('show');
+      }
+    }, 450);
+  }
+
+  banner.addEventListener('click', dismissBanner);
+  dismissBtn.addEventListener('click', function(e){ e.stopPropagation(); dismissBanner(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') dismissBanner(); });
+
+  // first interruption arrives just as you start reading
+  setTimeout(showBanner, 3400);
+
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
