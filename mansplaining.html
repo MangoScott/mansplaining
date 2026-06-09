@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mansplaining — Unsolicited. Unprecedented.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-alt:#f5f5f7;
+    --ink:#1d1d1f;
+    --gray:#6e6e73;
+    --gray-light:#86868b;
+    --blue:#0071e3;
+    --radius:28px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .reveal{opacity:1!important;transform:none!important}
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  b.name{font-weight:600;color:var(--blue);font-style:normal}
+  section.dark b.name{color:#2997ff}
+  footer b.name{color:var(--blue)}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+  .wrap{max-width:980px;margin:0 auto;padding:0 22px}
+  .wrap-narrow{max-width:700px;margin:0 auto;padding:0 22px}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:40;
+    backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    background:rgba(255,255,255,.72);
+    border-bottom:1px solid rgba(0,0,0,.08);
+  }
+  nav .bar{
+    max-width:980px;margin:0 auto;padding:0 22px;
+    height:48px;display:flex;align-items:center;justify-content:space-between;
+  }
+  nav .brand{font-size:.95rem;font-weight:600;color:var(--ink)}
+  nav .links{display:flex;gap:1.8rem}
+  nav .links a{font-size:.78rem;color:var(--ink);opacity:.8}
+  nav .links a:hover{opacity:1;text-decoration:none}
+  @media(max-width:600px){nav .links{display:none}}
+
+  /* ---------- reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    text-align:center;
+    padding:9rem 22px 7rem;
+  }
+  .hero .eyebrow{
+    font-size:1.1rem;
+    font-weight:600;
+    color:var(--gray);
+    margin-bottom:1rem;
+    letter-spacing:.01em;
+  }
+  .hero h1{
+    font-size:clamp(3.4rem,10vw,7rem);
+    font-weight:700;
+    letter-spacing:-.025em;
+    line-height:1.02;
+  }
+  .hero .tagline{
+    font-size:clamp(1.4rem,3.4vw,2.1rem);
+    font-weight:600;
+    letter-spacing:-.015em;
+    color:var(--ink);
+    margin-top:1.1rem;
+  }
+  .hero .sub{
+    font-size:1.06rem;
+    color:var(--gray);
+    max-width:46ch;
+    margin:1.6rem auto 0;
+  }
+  .hero .sub sup{color:var(--blue);font-size:.65em}
+  .hero .cta{margin-top:2.2rem;display:flex;gap:1.6rem;justify-content:center;align-items:center}
+  .btn{
+    display:inline-block;
+    background:var(--blue);
+    color:#fff;
+    font-size:.95rem;
+    font-weight:500;
+    padding:.7rem 1.5rem;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+  }
+  .btn:hover{background:#0077ed;text-decoration:none}
+
+  /* ---------- big statement sections ---------- */
+  section{padding:7rem 0}
+  section.alt{background:var(--bg-alt)}
+  .statement{text-align:center}
+  .statement h2{
+    font-size:clamp(2.1rem,5.6vw,3.6rem);
+    font-weight:700;
+    letter-spacing:-.022em;
+    line-height:1.08;
+    max-width:22ch;
+    margin:0 auto;
+  }
+  .statement h2 .dim{color:var(--gray-light)}
+  .statement p{
+    font-size:1.15rem;
+    color:var(--gray);
+    max-width:56ch;
+    margin:1.8rem auto 0;
+  }
+  .statement p strong{color:var(--ink);font-weight:600}
+  .statement p sup{color:var(--blue);font-size:.65em}
+
+  /* ---------- bento grid ---------- */
+  .bento{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:1.1rem;
+    margin-top:3.6rem;
+  }
+  .cell{
+    background:var(--bg);
+    border-radius:var(--radius);
+    padding:2.4rem 2.2rem;
+    text-align:left;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
+  }
+  section.alt .cell{background:#fff}
+  .cell.w3{grid-column:span 3}
+  .cell.w2{grid-column:span 2}
+  .cell.w6{grid-column:span 6;text-align:center;padding:3.2rem 2.2rem}
+  @media(max-width:760px){
+    .cell.w3,.cell.w2{grid-column:span 6}
+  }
+  .cell .quote{
+    font-size:1.5rem;
+    font-weight:600;
+    letter-spacing:-.015em;
+    line-height:1.25;
+  }
+  .cell .quote .dim{color:var(--gray-light)}
+  .cell .body{font-size:.98rem;color:var(--gray);margin-top:.9rem}
+  .cell.w6 .quote{font-size:clamp(1.6rem,3.6vw,2.3rem);max-width:30ch;margin:0 auto}
+  .cell.w6 .body{max-width:52ch;margin:1rem auto 0}
+
+  /* ---------- dark quiz section ---------- */
+  section.dark{
+    background:#000;
+    color:#f5f5f7;
+  }
+  section.dark .statement h2{color:#f5f5f7}
+  section.dark .statement p{color:#a1a1a6}
+  .quiz{
+    max-width:620px;
+    margin:3.4rem auto 0;
+    background:#1d1d1f;
+    border-radius:var(--radius);
+    padding:3rem 2.4rem;
+    text-align:center;
+  }
+  .q-step{display:none}
+  .q-step.active{display:block;animation:fadeUp .4s ease backwards}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .q-count{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6e6e73;margin-bottom:1rem}
+  .q-text{font-size:1.45rem;font-weight:600;letter-spacing:-.015em;line-height:1.3;max-width:34ch;margin:0 auto 2rem}
+  .q-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+  .q-btns button{
+    font-family:inherit;
+    font-size:.92rem;
+    font-weight:500;
+    padding:.7rem 1.5rem;
+    border-radius:999px;
+    cursor:pointer;
+    border:1px solid #424245;
+    background:transparent;
+    color:#f5f5f7;
+    transition:background .15s,border-color .15s;
+  }
+  .q-btns button:hover{border-color:#f5f5f7}
+  .q-btns button.primary{background:var(--blue);border-color:var(--blue)}
+  .q-btns button.primary:hover{background:#0077ed}
+  .verdict-label{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
+  .verdict-label.go{color:#30d158}
+  .verdict-label.stop{color:#ff453a}
+  .verdict-title{font-size:1.9rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.9rem}
+  .verdict-body{font-size:1rem;color:#a1a1a6;max-width:42ch;margin:0 auto 2rem}
+
+  /* ---------- specs ---------- */
+  .specs{max-width:640px;margin:3.4rem auto 0}
+  .specs .row{
+    display:flex;justify-content:space-between;align-items:baseline;gap:2rem;
+    padding:1.15rem 0;
+    border-bottom:1px solid rgba(0,0,0,.1);
+  }
+  .specs .row:first-child{border-top:1px solid rgba(0,0,0,.1)}
+  .specs .k{font-size:.95rem;font-weight:600;white-space:nowrap}
+  .specs .v{font-size:.95rem;color:var(--gray);text-align:right}
+  .specs .v sup{color:var(--blue);font-size:.65em}
+
+  /* ---------- responses ---------- */
+  .resp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.1rem;margin-top:3.4rem}
+  .resp{
+    background:#fff;
+    border-radius:var(--radius);
+    padding:2.1rem 1.9rem;
+    text-align:left;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
+  }
+  .resp h3{font-size:1.05rem;font-weight:600;letter-spacing:-.01em;margin-bottom:.6rem}
+  .resp p{font-size:.92rem;color:var(--gray)}
+  .resp .line{display:block;margin-top:.9rem;font-size:.95rem;font-weight:500;color:var(--ink)}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--bg-alt);
+    padding:3.5rem 0 4.5rem;
+  }
+  footer .fine{
+    max-width:980px;margin:0 auto;padding:0 22px;
+    font-size:.72rem;
+    color:var(--gray-light);
+    line-height:1.7;
+  }
+  footer .fine p{margin-bottom:.55rem;max-width:90ch}
+  footer .fine sup{color:var(--blue)}
+  footer .legal{
+    margin-top:2rem;padding-top:1.4rem;
+    border-top:1px solid rgba(0,0,0,.1);
+    font-size:.72rem;color:var(--gray-light);
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Site">
+  <div class="bar">
+    <span class="brand">Mansplaining</span>
+    <span class="links">
+      <a href="#overview">Overview</a>
+      <a href="#features">Features</a>
+      <a href="#detect">Detection</a>
+      <a href="#specs">Specs</a>
+      <a href="#responses">Support</a>
+    </span>
+  </div>
+</nav>
+
+<header class="hero">
+  <p class="eyebrow">Introducing</p>
+  <h1>Mansplaining</h1>
+  <p class="tagline">Unsolicited. Unprecedented.</p>
+  <p class="sub">The world’s most advanced way to explain things to people who already know them.<sup>1</sup> Demonstrated nightly by <b class="name">Elijah</b> and <b class="name">Johannes</b>. Endured heroically by <b class="name">Alexandra</b> and <b class="name">Emily</b>.</p>
+  <div class="cta">
+    <a class="btn" href="#detect">Check yourself</a>
+    <a href="#overview">Learn more &rsaquo;</a>
+  </div>
+</header>
+
+<section id="overview" class="alt">
+  <div class="wrap statement reveal">
+    <h2>It’s not the explaining.<br><span class="dim">It’s the assuming.</span></h2>
+    <p>Mansplaining is what happens when an explanation is delivered with <strong>total confidence</strong> and an <strong>unchecked assumption</strong> about who in the room knows more. The term took off after Rebecca Solnit’s 2008 essay <em>Men Explain Things to Me</em> — in which a man lectured her about an important book she should really read. The book was hers.<sup>2</sup> He hadn’t read it. He kept going. If you’ve ever watched <b class="name">Johannes</b> explain <b class="name">Alexandra</b>’s own job back to her — congratulations, you’ve seen it live.</p>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap statement reveal">
+    <h2>Every signature feature.<br><span class="dim">None of them requested.</span></h2>
+    <div class="bento">
+      <div class="cell w6 reveal">
+        <p class="quote">“Well, actually—” <span class="dim">The two words that start it all.</span></p>
+        <p class="body">Industry-leading interruption speed. Most recently deployed by <b class="name">Elijah</b> to correct a statement of <b class="name">Alexandra</b>’s that was already correct.</p>
+      </div>
+      <div class="cell w3 reveal">
+        <p class="quote">“Let me break it down for you.”</p>
+        <p class="body">Delivered, with remarkable consistency, to <b class="name">Emily</b> — who holds an advanced degree in the thing being broken down.</p>
+      </div>
+      <div class="cell w3 reveal">
+        <p class="quote">“It’s pretty simple, really.”</p>
+        <p class="body">A reliable signal that <b class="name">Johannes</b> has a simple understanding of a complicated subject.</p>
+      </div>
+      <div class="cell w3 reveal">
+        <p class="quote">“What she’s trying to say is—”</p>
+        <p class="body">Seamless restatement. <b class="name">Alexandra</b>’s point, re-presented thirty seconds later. Louder, and now <b class="name">Elijah</b>’s.</p>
+      </div>
+      <div class="cell w3 reveal">
+        <p class="quote">“Have you tried turning it off and on?”</p>
+        <p class="body">Asked of <b class="name">Emily</b>, who wrote the documentation currently being paraphrased back to her.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="detect" class="dark">
+  <div class="wrap statement reveal">
+    <h2>Detection. Built in.</h2>
+    <p>Four questions. Honest answers. Designed for <b class="name">Elijah</b>. Also applicable to <b class="name">Johannes</b>. Runs entirely on-device — specifically, in your head.</p>
+    <div class="quiz" id="quizBox">
+      <div class="q-step active" data-step="1">
+        <div class="q-count">1 of 4</div>
+        <div class="q-text">Did they ask you to explain it?</div>
+        <div class="q-btns">
+          <button class="primary" data-go="ok-asked">Yes, they asked</button>
+          <button data-go="2">No, but I feel a strong pull</button>
+        </div>
+      </div>
+      <div class="q-step" data-step="2">
+        <div class="q-count">2 of 4</div>
+        <div class="q-text">Do they have more experience in this topic than you?</div>
+        <div class="q-btns">
+          <button data-go="verdict-bad">Honestly, yes</button>
+          <button class="primary" data-go="3">No / I haven’t checked</button>
+        </div>
+      </div>
+      <div class="q-step" data-step="3">
+        <div class="q-count">3 of 4</div>
+        <div class="q-text">Would you explain it the same way, in the same tone, to <b class="name">Johannes</b> — same credentials, deeper voice?</div>
+        <div class="q-btns">
+          <button class="primary" data-go="4">Yes, identical</button>
+          <button data-go="verdict-bad">…hm.</button>
+        </div>
+      </div>
+      <div class="q-step" data-step="4">
+        <div class="q-count">4 of 4</div>
+        <div class="q-text">Are you explaining to share — or to be seen knowing?</div>
+        <div class="q-btns">
+          <button class="primary" data-go="ok-share">To share</button>
+          <button data-go="verdict-bad">To be seen knowing</button>
+        </div>
+      </div>
+      <div class="q-step" data-step="ok-asked">
+        <div class="verdict-label go">Cleared</div>
+        <div class="verdict-title">That’s just answering.</div>
+        <p class="verdict-body">They asked. Answering a question remains fully supported. Proceed — briefly, and check in as you go. Even <b class="name">Emily</b> approves.</p>
+        <div class="q-btns"><button data-go="1">Run again</button></div>
+      </div>
+      <div class="q-step" data-step="ok-share">
+        <div class="verdict-label go">Probably fine</div>
+        <div class="verdict-title">Generosity. A nice feature.</div>
+        <p class="verdict-body">Just lead with a question. “Want my take?” costs four words and prevents this entire website.</p>
+        <div class="q-btns"><button data-go="1">Run again</button></div>
+      </div>
+      <div class="q-step" data-step="verdict-bad">
+        <div class="verdict-label stop">Abort explanation</div>
+        <div class="verdict-title">Update available.</div>
+        <p class="verdict-body">You were about to mansplain. The patch is free, instant, and one syllable: “Oh?” — followed by listening. <b class="name">Alexandra</b> has already left the room.</p>
+        <div class="q-btns"><button data-go="1">Run again</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="specs" class="alt">
+  <div class="wrap statement reveal">
+    <h2>Tech specs.</h2>
+    <div class="specs">
+      <div class="row"><span class="k">Confidence</span><span class="v">Unlimited</span></div>
+      <div class="row"><span class="k">Expertise</span><span class="v">Sold separately</span></div>
+      <div class="row"><span class="k">Listening</span><span class="v">Not supported in this region</span></div>
+      <div class="row"><span class="k">Battery</span><span class="v">All-day talk time<sup>3</sup></span></div>
+      <div class="row"><span class="k">Storage</span><span class="v">Holds one opinion. Firmly.</span></div>
+      <div class="row"><span class="k">Compatibility</span><span class="v">Interrupts any conversation. Even <b class="name">Emily</b>’s.</span></div>
+      <div class="row"><span class="k">Field testing</span><span class="v">Conducted extensively on <b class="name">Alexandra</b> and <b class="name">Emily</b>. Consent pending.</span></div>
+      <div class="row"><span class="k">Default voice</span><span class="v"><b class="name">Johannes</b>, at full volume</span></div>
+      <div class="row"><span class="k">Self-awareness</span><span class="v">Coming in a future update. Right, <b class="name">Elijah</b>?</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="responses">
+  <div class="wrap statement reveal">
+    <h2>Support.<br><span class="dim">For when it happens to you.</span></h2>
+    <p>No single response fits every room — a panel, a dinner, a code review carry different stakes. <b class="name">Alexandra</b> and <b class="name">Emily</b>, this section is yours. <b class="name">Elijah</b> and <b class="name">Johannes</b> — take notes. Four field-tested options:</p>
+    <div class="resp-grid">
+      <div class="resp reveal">
+        <h3>The credential drop</h3>
+        <p>Calmly state your expertise and keep going. <b class="name">Alexandra</b>’s signature move. Devastating in its simplicity.</p>
+        <span class="line">“I’m familiar — I wrote it.”</span>
+      </div>
+      <div class="resp reveal">
+        <h3>The boomerang</h3>
+        <p>Ask one question deeper than his explanation. The pause that follows is the lesson.</p>
+        <span class="line">“And how does that handle the edge case?”</span>
+      </div>
+      <div class="resp reveal">
+        <h3>The name-and-move</h3>
+        <p>Name the pattern without litigating it, then reclaim the floor. Best with witnesses.</p>
+        <span class="line">“I’d like to finish my point.”</span>
+      </div>
+      <div class="resp reveal">
+        <h3>The ally assist</h3>
+        <p>For bystanders: redirect credit to the person who actually said it first. <b class="name">Elijah</b>, this one’s for you.</p>
+        <span class="line">“That’s <b class="name">Emily</b>’s point — <b class="name">Emily</b>, keep going?”</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fine">
+    <p><sup>1</sup> Studies of workplace conversation consistently find women are interrupted more often than men, by speakers of all genders. Your mileage will not vary.</p>
+    <p><sup>2</sup> Rebecca Solnit, “Men Explain Things to Me” (2008). She did not coin the word “mansplaining,” and has mixed feelings about it. He still hasn’t read the book.</p>
+    <p><sup>3</sup> Talk time measured under controlled conditions: one (1) listener, <b class="name">Alexandra</b>, attempting to leave. Actual duration may exceed expectations. Everyone’s.</p>
+    <div class="legal">Explaining is a gift. Assuming is the bug. Ask first. &nbsp;·&nbsp; Dedicated, with love, to <b class="name">Alexandra</b>, <b class="name">Elijah</b>, <b class="name">Emily</b>, and <b class="name">Johannes</b>. You know which two of you this is about. &nbsp;·&nbsp; Designed by everyone who said it first, somewhere quieter.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // quiz
+  var quiz = document.getElementById('quizBox');
+  quiz.addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-go]');
+    if(!btn) return;
+    quiz.querySelectorAll('.q-step').forEach(function(s){ s.classList.remove('active'); });
+    var next = quiz.querySelector('.q-step[data-step="'+btn.getAttribute('data-go')+'"]');
+    if(next) next.classList.add('active');
+  });
+
+  // scroll reveals
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>
